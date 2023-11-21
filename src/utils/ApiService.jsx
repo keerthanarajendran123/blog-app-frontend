@@ -8,6 +8,7 @@ const AxiosService = axios.create({
 })
 
 AxiosService.interceptors.request.use(config=>{
+    //console.log(config)
     const token = sessionStorage.getItem('token')
     if(token)
         config.headers.Authorization = `Bearer ${token}`

@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { toast } from 'react-toastify';
-import ApiService from '../utils/ApiService';
+//import ApiService from '../utils/ApiService';
 import { useNavigate } from 'react-router-dom';
+import AxiosService from '../utils/ApiService';
 
 function SignUp() {
   const [firstName, setFirstName] = useState('');
@@ -14,24 +15,27 @@ function SignUp() {
 
   const handleSignUp = async (e) => {
     e.preventDefault(); 
-
+  
     try {
-      const response = await ApiService.post('/user/signup', {
+      const response = await AxiosService.post('/user/signup', {
         firstName,
         lastName,
         email,
         password,
       });
-
+  
       if (response.status === 201) {
         toast.success(response.data.message);
+        sessionStorage.setItem('token', response.data.token);
+        sessionStorage.setItem('userData', JSON.stringify(response.data.userData));
+  
         navigate('/signin'); 
       }
     } catch (error) {
       toast.error(error.response.data.message);
     }
   };
-
+  
   return (
     <div className='background-container'>
       <h1 style={{ textAlign: 'center' }}>Sign Up Here!</h1>
