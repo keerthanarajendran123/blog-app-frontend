@@ -101,8 +101,8 @@ function SignIn() {
   };
 
   const handleGetGuestCredentials = () => {
-    setEmail('default@gmail.com');
-    setPassword('123456');
+    setEmail('sang@gmail.com');
+    setPassword('sang123');
   };
 
   const handleGetAdminCredentials = () => {
