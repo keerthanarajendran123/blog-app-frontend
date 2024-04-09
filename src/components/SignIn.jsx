@@ -62,6 +62,7 @@
 
 // export default SignIn
 
+
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -72,6 +73,8 @@ import { useNavigate } from 'react-router-dom';
 function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [guestCredentialsClicked, setGuestCredentialsClicked] = useState(false);
+  const [adminCredentialsClicked, setAdminCredentialsClicked] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async () => {
@@ -103,11 +106,29 @@ function SignIn() {
   const handleGetGuestCredentials = () => {
     setEmail('sang@gmail.com');
     setPassword('sang123');
+    setGuestCredentialsClicked(true);
+    setAdminCredentialsClicked(false);
   };
 
   const handleGetAdminCredentials = () => {
     setEmail('admin@gmail.com');
     setPassword('123456');
+    setAdminCredentialsClicked(true);
+    setGuestCredentialsClicked(false);
+  };
+
+  const handleSignIn = () => {
+    if (guestCredentialsClicked || adminCredentialsClicked) {
+      handleLogin();
+    } else {
+      
+      if (email.trim() !== '' && password.trim() !== '') {
+        handleLogin();
+      } else {
+        
+        toast.error('Please fill in email and password fields.');
+      }
+    }
   };
 
   return (
@@ -134,7 +155,7 @@ function SignIn() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
-          <Button variant='primary' onClick={handleLogin}>
+          <Button variant='primary' onClick={handleSignIn}>
             SignIn
           </Button>
           &nbsp;&nbsp;
